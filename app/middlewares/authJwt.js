@@ -13,7 +13,6 @@ verifyToken = (req, res, next) => {
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      console.log(token)
       return res.status(401).send({ message: "Unauthorized!" });
     }
     req.userId = decoded.id;
@@ -30,7 +29,7 @@ isAdmin = (req, res, next) => {
 
     Role.find(
       {
-        _id: { $in: user.roles }
+        _id: { $in: user.roles },
       },
       (err, roles) => {
         if (err) {
@@ -61,7 +60,7 @@ isModerator = (req, res, next) => {
 
     Role.find(
       {
-        _id: { $in: user.roles }
+        _id: { $in: user.roles },
       },
       (err, roles) => {
         if (err) {
@@ -86,6 +85,6 @@ isModerator = (req, res, next) => {
 const authJwt = {
   verifyToken,
   isAdmin,
-  isModerator
+  isModerator,
 };
 module.exports = authJwt;
