@@ -13,6 +13,7 @@ const Customer = mongoose.model(
       warrantyTime: String,
       expireDate: String,
       invoiceID: String,
+      comment: String,
       status: { type: String, default: "OK" },
     },
     { timestamps: true }

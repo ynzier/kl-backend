@@ -59,6 +59,26 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.findbySerial = (req, res) => {
+  console.log(req.params.id);
+  const serialID = req.params.id;
+  var condition = serialID
+    ? { serialID: { $regex: serialID, $options: "i" } }
+    : {};
+  Record.find(condition)
+    .then((data) => {
+      if (!data)
+        res.status(404).send({ message: "Not found Record with id " + id });
+      else res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials.",
+      });
+    });
+};
+
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
@@ -100,11 +120,26 @@ exports.update = (req, res) => {
       });
     });
 };
+
 // Delete a Tutorial with the specified id in the request
-exports.delete = (req, res) => {};
+exports.delete = (req, res) => {
+  const id = req.params.id;
 
-// Delete all Tutorials from the database.
-exports.deleteAll = (req, res) => {};
-
-// Find all published Tutorials
-exports.findAllPublished = (req, res) => {};
+  Record.findByIdAndRemove(id)
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete Record with id=${id}. Maybe Record was not found!`,
+        });
+      } else {
+        res.send({
+          message: "Record was deleted successfully!",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Could not delete Record with id=" + id,
+      });
+    });
+};
