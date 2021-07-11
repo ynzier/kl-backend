@@ -19,7 +19,7 @@ var corsOptions = {
 
 app.use(helmet());
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
