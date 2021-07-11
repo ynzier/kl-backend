@@ -1,5 +1,5 @@
 const db = require("../models");
-const Record = db.customer;
+const Ticket = db.ticket;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -8,12 +8,10 @@ exports.create = (req, res) => {
     !(
       req.body.name &&
       req.body.tel &&
-      req.body.address &&
-      req.body.modelID &&
       req.body.serialID &&
-      req.body.purchaseDate &&
-      req.body.expireDate &&
-      req.body.invoiceID
+      req.body.email &&
+      req.body.message &&
+      req.body.image
     )
   ) {
     res.status(400).send({ message: "กรุณาใส่ข้อมูลให้ครบทุกช่อง!" });
@@ -21,21 +19,18 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
-  const record = new Record({
+  const ticket = new Ticket({
     name: req.body.name,
-    tel: req.body.tel,
-    address: req.body.address,
-    modelID: req.body.modelID,
     serialID: req.body.serialID,
-    purchaseDate: req.body.purchaseDate,
-    warrantyTime: req.body.warrantyTime,
-    expireDate: req.body.expireDate,
-    invoiceID: req.body.invoiceID,
+    email: req.body.email,
+    tel: req.body.tel,
+    message: req.body.message,
+    image: req.body.image,
   });
 
   // Save Tutorial in the database
-  record
-    .save(record)
+  ticket
+    .save(ticket)
     .then((data) => {
       res.send(data);
     })
@@ -48,7 +43,7 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  Record.find()
+  Ticket.find()
     .then((data) => {
       res.send(data);
     })
@@ -65,16 +60,14 @@ exports.findbySerial = (req, res) => {
   var condition = serialID
     ? { serialID: { $regex: serialID, $options: "i" } }
     : {};
-  Record.find(condition)
+  Ticket.find(condition)
     .then((data) => {
-      if (!data)
-        res.status(404).send({ message: "ไม่พบสินค้านี้ " + id });
+      if (!data) res.status(404).send({ message: "ไม่พบสินค้านี้ : " + id });
       else res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving record.",
+        message: err.message || "Some error occurred while retrieving records.",
       });
     });
 };
@@ -82,7 +75,7 @@ exports.findbySerial = (req, res) => {
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-  Record.findById(id)
+  Ticket.findById(id)
     .then((data) => {
       if (!data)
         res.status(404).send({ message: "Not found Record with id " + id });
@@ -106,7 +99,7 @@ exports.update = (req, res) => {
 
   const id = req.params.id;
 
-  Record.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  Ticket.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then((data) => {
       if (!data) {
         res.status(404).send({
@@ -125,7 +118,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Record.findByIdAndRemove(id)
+  Ticket.findByIdAndRemove(id)
     .then((data) => {
       if (!data) {
         res.status(404).send({

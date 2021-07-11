@@ -1,12 +1,10 @@
 const mongoose = require("mongoose");
 
-const Customer = mongoose.model(
+const Goods = mongoose.model(
   "Goods",
-  new mongoose.Schema(
-    {
-      modelID: String,
-    },
-  )
+  new mongoose.Schema({
+    modelID: String,
+  })
 );
 
-module.exports = Customer;
+module.exports = Goods;
