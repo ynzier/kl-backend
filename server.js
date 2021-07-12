@@ -6,7 +6,7 @@ const dbConfig = require("./app/config/db.config");
 
 const app = express();
 global.__basedir = __dirname;
-var whitelist = ["http://localhost:3000", "http://localhost:3001"];
+var whitelist = ["http://warranty.klhealthcare.net", "http://control.klhealthcare.net"];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -19,7 +19,7 @@ var corsOptions = {
 
 app.use(helmet());
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
