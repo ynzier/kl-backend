@@ -65,16 +65,14 @@ exports.findbySerial = (req, res) => {
   var condition = serialID
     ? { serialID: { $regex: serialID, $options: "i" } }
     : {};
-  Record.find(condition)
+  Record.findOne(condition)
     .then((data) => {
-      if (!data)
-        res.status(404).send({ message: "ไม่พบสินค้านี้ " + id });
+      if (!data) res.status(404).send({ message: "ไม่พบสินค้านี้ " + id });
       else res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving record.",
+        message: err.message || "Some error occurred while retrieving record.",
       });
     });
 };

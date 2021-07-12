@@ -2,8 +2,7 @@ module.exports = (app) => {
   const ticket = require("../controllers/ticket.controller.js");
   
   const { authJwt } = require("../middlewares");
-
-  const controller = require("../controllers/file.controller");
+  
   var router = require("express").Router();
 
   // Create a new Tutorial
@@ -23,9 +22,6 @@ module.exports = (app) => {
   // Delete a Tutorial with id
   router.delete("/delete/:id", [authJwt.verifyToken], ticket.delete);
 
-  router.post("/upload", controller.upload);
-  router.get("/files", controller.getListFiles);
-  router.get("/files/:name", controller.download);
 
   app.use("/api/ticket", router);
   app.use(function (req, res, next) {

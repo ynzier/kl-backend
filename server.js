@@ -1,11 +1,9 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const dbConfig = require("./app/config/db.config");
 
 const app = express();
-global.__basedir = __dirname;
 var whitelist = ["http://warranty.klhealthcare.net", "http://control.klhealthcare.net"];
 var corsOptions = {
   origin: function (origin, callback) {
@@ -19,13 +17,13 @@ var corsOptions = {
 
 app.use(helmet());
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
-app.use(bodyParser.json());
+app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 const db = require("./app/models");
 

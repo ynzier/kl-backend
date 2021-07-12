@@ -20,15 +20,12 @@ const Ticket = mongoose.model(
         type: String,
         required: true,
       },
-      status: {
+      topic: {
         type: String,
       },
       message: {
         type: String,
         required: true,
-      },
-      image: {
-        type: String,
       },
     },
     {
