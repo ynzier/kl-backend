@@ -60,7 +60,6 @@ exports.findAll = (req, res) => {
 };
 
 exports.findbySerial = (req, res) => {
-  console.log(req.params.id);
   const serialID = req.params.id;
   var condition = serialID
     ? { serialID: { $regex: serialID, $options: "i" } }
@@ -72,7 +71,7 @@ exports.findbySerial = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving record.",
+        message: "Some error occurred while retrieving record.",
       });
     });
 };
