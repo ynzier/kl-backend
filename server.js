@@ -17,7 +17,7 @@ var corsOptions = {
 
 app.use(helmet());
 
-app.use(cors(whitelist));
+app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
 app.use(express.json({limit: '10mb'}));
