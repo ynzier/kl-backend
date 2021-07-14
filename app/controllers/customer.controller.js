@@ -16,7 +16,7 @@ exports.create = (req, res) => {
       req.body.invoiceID
     )
   ) {
-    res.status(400).send({ message: "กรุณาใส่ข้อมูลให้ครบทุกช่อง!" });
+    res.status(400).send({ message: "กรอกข้อมูลให้ครบทุกช่อง!" });
     return;
   }
 
@@ -41,7 +41,7 @@ exports.create = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating.",
+        message: err.message || "ระบบขัดข้อง.",
       });
     });
 };
@@ -54,7 +54,7 @@ exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving.",
+        message: err.message || "ไม่สามารถรับข้อมูลได้.",
       });
     });
 };
@@ -66,12 +66,13 @@ exports.findbySerial = (req, res) => {
     : {};
   Record.findOne(condition)
     .then((data) => {
-      if (!data) res.status(404).send({ message: "ไม่พบสินค้านี้ " + id });
+      if (!data)
+        res.status(404).send({ message: "ไม่พบสินค้านี้ " + serialID });
       else res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Some error occurred while retrieving record.",
+        message: err.message || "ไม่สามารถรับข้อมูลได้.",
       });
     });
 };
@@ -82,14 +83,12 @@ exports.findOne = (req, res) => {
   Record.findById(id)
     .then((data) => {
       if (!data)
-        res.status(404).send({ message: "Not found Record with id " + id });
+        res.status(404).send({ message: "ไม่พบข้อมูล " + id });
       else res.send(data);
     })
     .catch((err) => {
       console.log(err);
-      res
-        .status(500)
-        .send({ message: "Error retrieving Record with id=" + id });
+      res.status(500).send({ message: "ไม่สามารถรับข้อมูลได้" });
     });
 };
 
@@ -97,7 +96,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: "Empty!",
+      message: "ข้อมูลว่าง!",
     });
   }
 
@@ -107,13 +106,13 @@ exports.update = (req, res) => {
     .then((data) => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot update Record with id=${id}. Maybe Record was not found!`,
+          message: `ไม่พบข้อมูล ${id}!`,
         });
-      } else res.send({ message: "Record was updated successfully." });
+      } else res.send({ message: "อัพเดทข้อมูลเรียบร้อย" });
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating Record with id=" + id,
+        message: "ไม่สามารถอัพเดทได้",
       });
     });
 };
@@ -126,17 +125,17 @@ exports.delete = (req, res) => {
     .then((data) => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot delete Record with id=${id}. Maybe Record was not found!`,
+          message: `ไม่สามารถลบ ${id} ได้ เนื่องจากไม่พบข้อมูล!`,
         });
       } else {
         res.send({
-          message: "Record was deleted successfully!",
+          message: "ลบเรียบร้อยแล้ว!",
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete Record with id=" + id,
+        message: "ไม่สามารถลบ " + id + " ได้",
       });
     });
 };
