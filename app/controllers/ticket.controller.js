@@ -4,17 +4,10 @@ const Ticket = db.ticket;
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
   // Validate request
-  if (
-    !(
-      req.body.name &&
-      req.body.tel &&
-      req.body.serialID &&
-      req.body.email &&
-      req.body.message &&
-      req.body.image
-    )
-  ) {
-    res.status(400).send({ message: "กรุณาใส่ข้อมูลให้ครบทุกช่อง!" });
+  if (!(req.body.name && req.body.tel && req.body.email && req.body.message)) {
+    res
+      .status(400)
+      .send({ message: "กรุณาใส่ข้อมูลช่องที่มี (*) ให้ครบทุกช่อง!" });
     return;
   }
 
@@ -24,6 +17,7 @@ exports.create = (req, res) => {
     serialID: req.body.serialID,
     email: req.body.email,
     tel: req.body.tel,
+    subject: req.body.subject,
     message: req.body.message,
     image: req.body.image,
   });
@@ -77,15 +71,12 @@ exports.findOne = (req, res) => {
   const id = req.params.id;
   Ticket.findById(id)
     .then((data) => {
-      if (!data)
-        res.status(404).send({ message: "ไม่พบข้อมูล " + id });
+      if (!data) res.status(404).send({ message: "ไม่พบข้อมูล " + id });
       else res.send(data);
     })
     .catch((err) => {
       console.log(err);
-      res
-        .status(500)
-        .send({ message: "ไม่สามารถรับข้อมูลได้" });
+      res.status(500).send({ message: "ไม่สามารถรับข้อมูลได้" });
     });
 };
 

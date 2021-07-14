@@ -1,37 +1,43 @@
 const mongoose = require("mongoose");
-
-const Ticket = mongoose.model(
-  "Ticket",
-  new mongoose.Schema(
-    {
-      serialID: {
-        type: String,
-        required: true,
-      },
-      name: {
-        type: String,
-        required: true,
-      },
-      email: {
-        type: String,
-        required: true,
-      },
-      tel: {
-        type: String,
-        required: true,
-      },
-      topic: {
-        type: String,
-      },
-      message: {
-        type: String,
-        required: true,
-      },
+const AutoIncrement = require("mongoose-sequence")(mongoose);
+mongoose.set("useCreateIndex", true);
+var TicketSchema = new mongoose.Schema(
+  {
+    ticketID: {
+      type: Number,
     },
-    {
-      timestamps: true,
-    }
-  )
+    serialID: {
+      type: String,
+    },
+    name: {
+      type: String,
+    },
+    email: {
+      type: String,
+    },
+    tel: {
+      type: String,
+    },
+    subject: {
+      type: String,
+    },
+    message: {
+      type: String,
+    },
+    image: {
+      type: String,
+    },
+    status: {
+      type: String,
+      default: "ยังไม่ได้อ่าน",
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
+TicketSchema.plugin(AutoIncrement, { inc_field: "ticketID" });
+
+const Ticket = mongoose.model("Ticket", TicketSchema);
 
 module.exports = Ticket;
