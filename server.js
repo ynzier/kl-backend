@@ -4,7 +4,10 @@ const helmet = require("helmet");
 const dbConfig = require("./app/config/db.config");
 
 const app = express();
-var whitelist = ["http://warranty.klhealthcare.net", "http://control.klhealthcare.net"];
+var whitelist = [
+  "http://warranty.klhealthcare.net",
+  "http://control.klhealthcare.net:708",
+];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -20,8 +23,7 @@ app.use(helmet());
 app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
-app.use(express.json({limit: '10mb'}));
-
+app.use(express.json({ limit: "10mb" }));
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
