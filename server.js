@@ -6,7 +6,7 @@ const dbConfig = require("./app/config/db.config");
 const app = express();
 var whitelist = [
   "http://warranty.klhealthcare.net",
-  "http://control.klhealthcare.net:708",
+  "http://control.klhealthcare.net",
 ];
 var corsOptions = {
   origin: function (origin, callback) {
