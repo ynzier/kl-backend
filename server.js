@@ -7,6 +7,7 @@ const app = express();
 var whitelist = [
   "http://warranty.klhealthcare.net",
   "http://control.klhealthcare.net:708",
+  "http://localhost:3000",
 ];
 var corsOptions = {
   origin: function (origin, callback) {
@@ -31,11 +32,14 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./app/models");
 
 db.mongoose
-  .connect(`mongodb://${dbConfig.USER}:${dbConfig.PASS}@${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  })
+  .connect(
+    `mongodb://${dbConfig.USER}:${dbConfig.PASS}@${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+    }
+  )
   .then(() => {
     console.log("Successfully connect to MongoDB.");
   })
