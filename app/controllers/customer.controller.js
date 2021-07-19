@@ -19,19 +19,36 @@ exports.create = (req, res) => {
     res.status(400).send({ message: "กรอกข้อมูลให้ครบทุกช่อง!" });
     return;
   }
-
+  let record;
   // Create a Tutorial
-  const record = new Record({
-    name: req.body.name,
-    tel: req.body.tel,
-    address: req.body.address,
-    modelID: req.body.modelID,
-    serialID: req.body.serialID,
-    purchaseDate: req.body.purchaseDate,
-    warrantyTime: req.body.warrantyTime,
-    expireDate: req.body.expireDate,
-    invoiceID: req.body.invoiceID,
-  });
+  if (!req.body.SerialArray) {
+    record = new Record({
+      name: req.body.name,
+      tel: req.body.tel,
+      address: req.body.address,
+      modelID: req.body.modelID,
+      serialID: req.body.serialID,
+      purchaseDate: req.body.purchaseDate,
+      warrantyTime: req.body.warrantyTime,
+      expireDate: req.body.expireDate,
+      invoiceID: req.body.invoiceID,
+      itemCount: req.body.itemCount,
+    });
+  } else {
+    record = new Record({
+      name: req.body.name,
+      tel: req.body.tel,
+      address: req.body.address,
+      modelID: req.body.modelID,
+      serialID: req.body.serialID,
+      purchaseDate: req.body.purchaseDate,
+      warrantyTime: req.body.warrantyTime,
+      expireDate: req.body.expireDate,
+      invoiceID: req.body.invoiceID,
+      SerialArray: req.body.SerialArray,
+      itemCount: req.body.itemCount,
+    });
+  }
 
   // Save Tutorial in the database
   record
@@ -82,8 +99,7 @@ exports.findOne = (req, res) => {
   const id = req.params.id;
   Record.findById(id)
     .then((data) => {
-      if (!data)
-        res.status(404).send({ message: "ไม่พบข้อมูล " + id });
+      if (!data) res.status(404).send({ message: "ไม่พบข้อมูล " + id });
       else res.send(data);
     })
     .catch((err) => {

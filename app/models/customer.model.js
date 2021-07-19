@@ -15,6 +15,8 @@ const Customer = mongoose.model(
       invoiceID: String,
       comment: String,
       status: { type: String, default: "OK" },
+      SerialArray: Array,
+      itemCount: String,
     },
     { timestamps: true }
   )

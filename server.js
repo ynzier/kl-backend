@@ -7,7 +7,6 @@ const app = express();
 var whitelist = [
   "http://warranty.klhealthcare.net",
   "http://control.klhealthcare.net:708",
-  "http://localhost:3000",
 ];
 var corsOptions = {
   origin: function (origin, callback) {
@@ -21,7 +20,7 @@ var corsOptions = {
 
 app.use(helmet());
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json({ limit: "10mb" }));
